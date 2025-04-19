@@ -48,11 +48,11 @@ get_system_info() {
 
 # Function to get user input
 get_user_input() {
-    read -e -p "Enter your hostname : " -i "proxmox-example" HOSTNAME
-    read -e -p "Enter your FQDN name : " -i "proxmox.example.com" FQDN
-    read -e -p "Enter your timezone : " -i "Europe/Istanbul" TIMEZONE
-    read -e -p "Enter your email address: " -i "admin@example.com" EMAIL
-    read -e -p "Enter your private subnet : " -i "192.168.26.0/24" PRIVATE_SUBNET
+    read -e -p "Enter your hostname : " -i "server1" HOSTNAME
+    read -e -p "Enter your FQDN name : " -i "brian@brianharte.co.uk" FQDN
+    read -e -p "Enter your timezone : " -i "Europe/London" TIMEZONE
+    read -e -p "Enter your email address: " -i "brian@brianharte.co.uk" EMAIL
+    read -e -p "Enter your private subnet : " -i "10.10.10.0/24" PRIVATE_SUBNET
     read -e -p "Enter your System New root password: " NEW_ROOT_PASSWORD
     
     # Get the network prefix (first three octets) from PRIVATE_SUBNET
@@ -128,12 +128,8 @@ make_answer_toml() {
 [disk-setup]
     filesystem = "zfs"
     zfs.raid = "raid1"
-# Original - zfs for the entire drive
-#    disk_list = ["/dev/vda", "/dev/vdb"]
-#
-# Custom change to specify the partition size allowing space at the end for non-zfs swap to add post install
-    disk-list  = ["/dev/vda", "/dev/vdb"]
-    hdsize      = 1772      # in GiB; leaves ~16 GiB free per disk for swap :contentReference[oaicite:0]{index=0}
+# zfs for the entire drive
+    disk_list = ["/dev/vda", "/dev/vdb"]
 
 # First boot added to run swap-setup.sh script to create swap on first boot 
 [first-boot]
