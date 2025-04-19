@@ -1,3 +1,7 @@
+# As I am intending this script to be saved and run locally at the moment need to create the swap-setup.sh
+# and place it in the same directory as this script. Make both executable with chmod +x
+# see /scripts for swap-setup.sh
+
 #!/usr/bin/bash
 set -e
 cd /root
@@ -110,8 +114,8 @@ make_answer_toml() {
     echo -e "${CLR_BLUE}Making answer.toml...${CLR_RESET}"
     cat <<EOF > answer.toml
 [global]
-    keyboard = "en-us"
-    country = "us"
+    keyboard = "en-gb"
+    country = "uk"
     fqdn = "$FQDN"
     mailto = "$EMAIL"
     timezone = "$TIMEZONE"
@@ -124,7 +128,17 @@ make_answer_toml() {
 [disk-setup]
     filesystem = "zfs"
     zfs.raid = "raid1"
-    disk_list = ["/dev/vda", "/dev/vdb"]
+# Original - zfs for the entire drive
+#    disk_list = ["/dev/vda", "/dev/vdb"]
+#
+# Custom change to specify the partition size allowing space at the end for non-zfs swap to add post install
+    disk-list  = ["/dev/vda", "/dev/vdb"]
+    hdsize      = 1772      # in GiB; leaves ~16 GiB free per disk for swap :contentReference[oaicite:0]{index=0}
+
+# First boot added to run swap-setup.sh script to create swap on first boot 
+[first-boot]
+source   = "from-iso"
+ordering = "before-network"
 
 EOF
     echo -e "${CLR_GREEN}answer.toml created.${CLR_RESET}"
@@ -132,7 +146,9 @@ EOF
 
 make_autoinstall_iso() {
     echo -e "${CLR_BLUE}Making autoinstall.iso...${CLR_RESET}"
-    proxmox-auto-install-assistant prepare-iso pve.iso --fetch-from iso --answer-file answer.toml --output pve-autoinstall.iso
+#    proxmox-auto-install-assistant prepare-iso pve.iso --fetch-from iso --answer-file answer.toml --output pve-autoinstall.iso
+# Added swap-setup.sh script
+     proxmox-auto-install-assistant prepare-iso pve.iso --fetch-from iso --answer-file answer.toml --on-first-boot swap-setup.sh --output pve-autoinstall.iso
     echo -e "${CLR_GREEN}pve-autoinstall.iso created.${CLR_RESET}"
 }
 
