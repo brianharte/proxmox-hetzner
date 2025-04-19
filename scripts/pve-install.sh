@@ -148,7 +148,7 @@ make_autoinstall_iso() {
     echo -e "${CLR_BLUE}Making autoinstall.iso...${CLR_RESET}"
 #    proxmox-auto-install-assistant prepare-iso pve.iso --fetch-from iso --answer-file answer.toml --output pve-autoinstall.iso
 # Added swap-setup.sh script and ssh key config setup
-     proxmox-auto-install-assistant prepare-iso pve.iso --fetch-from iso --answer-file answer.toml --on-first-boot swap-setup.sh --on-first-boot setup-ssh.sh --output pve-autoinstall.iso
+     proxmox-auto-install-assistant prepare-iso pve.iso --fetch-from iso --answer-file answer.toml --on-first-boot swap-ssh-setup.sh --output pve-autoinstall.iso
     echo -e "${CLR_GREEN}pve-autoinstall.iso created.${CLR_RESET}"
 }
 
