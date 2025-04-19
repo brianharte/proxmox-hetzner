@@ -49,7 +49,7 @@ get_system_info() {
 # Function to get user input
 get_user_input() {
     read -e -p "Enter your hostname : " -i "server1" HOSTNAME
-    read -e -p "Enter your FQDN name : " -i "brian@brianharte.co.uk" FQDN
+    read -e -p "Enter your FQDN name : " -i "brianharte.co.uk" FQDN
     read -e -p "Enter your timezone : " -i "Europe/London" TIMEZONE
     read -e -p "Enter your email address: " -i "brian@brianharte.co.uk" EMAIL
     read -e -p "Enter your private subnet : " -i "10.10.10.0/24" PRIVATE_SUBNET
@@ -115,7 +115,7 @@ make_answer_toml() {
     cat <<EOF > answer.toml
 [global]
     keyboard = "en-gb"
-    country = "uk"
+    country = "gb"
     fqdn = "$FQDN"
     mailto = "$EMAIL"
     timezone = "$TIMEZONE"
